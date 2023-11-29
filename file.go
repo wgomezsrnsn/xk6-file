@@ -56,6 +56,35 @@ func (*FILE) WriteBytes(path string, b []byte) error {
 	return nil
 }
 
+// AppendBytes appends the given bytes to an existing binary file
+func (*FILE) AppendBytes(path string, b byte[]) error {
+	f, err := os.OpenFile(path,
+		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	if _, err := f.Write(b); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (*FILE) AppendString(path string, s string) error {
+	f, err := os.OpenFile(path,
+		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	if _, err := f.Write(s); err != nil {
+		return err
+	}
+	return nil
+}
+
 // ClearFile removes all the contents of a file
 func (*FILE) ClearFile(path string) error {
 	f, err := os.OpenFile(path, os.O_RDWR, 0644)
