@@ -57,7 +57,7 @@ func (*FILE) WriteBytes(path string, b []byte) error {
 }
 
 // AppendBytes appends the given bytes to an existing binary file
-func (*FILE) AppendBytes(path string, b byte[]) error {
+func (*FILE) AppendBytes(path string, b []byte) error {
 	f, err := os.OpenFile(path,
 		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
