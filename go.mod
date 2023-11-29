@@ -1,7 +1,5 @@
 module github.com/avitalique/xk6-file
 
-replace github.com/avitalique/xk6-file => github.com/wgomezsrnsn/xk6-file 
-
 go 1.20
 
 require go.k6.io/k6 v0.46.0
@@ -27,3 +25,5 @@ require (
 	golang.org/x/time v0.3.0 // indirect
 	gopkg.in/guregu/null.v3 v3.3.0 // indirect
 )
+
+replace github.com/avitalique/xk6-file => github.com/wgomezsrnsn/xk6-file latest
