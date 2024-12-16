@@ -6,6 +6,7 @@ package file
 
 import (
 	"bufio"
+	"io"
 	"os"
 
 	"go.k6.io/k6/js/modules"
@@ -35,7 +36,7 @@ func (*FILE) WriteString(path string, s string) error {
 // AppendString appends string to file
 func (*FILE) AppendString(path string, s string) error {
 	f, err := os.OpenFile(path,
-		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0o644)
 	if err != nil {
 		return err
 	}
@@ -49,7 +50,7 @@ func (*FILE) AppendString(path string, s string) error {
 
 // WriteBytes writes binary file
 func (*FILE) WriteBytes(path string, b []byte) error {
-	err := os.WriteFile(path, b, 0644)
+	err := os.WriteFile(path, b, 0o644)
 	if err != nil {
 		return err
 	}
@@ -73,7 +74,7 @@ func (*FILE) AppendBytes(path string, b []byte) error {
 
 // ClearFile removes all the contents of a file
 func (*FILE) ClearFile(path string) error {
-	f, err := os.OpenFile(path, os.O_RDWR, 0644)
+	f, err := os.OpenFile(path, os.O_RDWR, 0o644)
 	if err != nil {
 		return err
 	}
@@ -145,4 +146,20 @@ func (*FILE) RemoveRowsBetweenValues(path string, start, end int) error {
 		return err
 	}
 	return nil
+}
+
+// ReadFile reads the contents of a file and returns it as a string
+func (*FILE) ReadFile(path string) (string, error) {
+	f, err := os.Open(path)
+	if err != nil {
+		return "", err
+	}
+	defer f.Close()
+
+	// Read the file contents
+	content, err := io.ReadAll(f)
+	if err != nil {
+		return "", err
+	}
+	return string(content), nil
 }
